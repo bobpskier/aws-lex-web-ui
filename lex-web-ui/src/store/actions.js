@@ -25,7 +25,8 @@ import { createLiveChatSession, connectLiveChatSession, initLiveChatHandlers, se
 import { initTalkDeskLiveChat, sendTalkDeskChatMessage, requestTalkDeskLiveChatEnd } from '@/store/talkdesk-live-chat-handlers.js';
 import silentOgg from '@/assets/silent.ogg';
 import silentMp3 from '@/assets/silent.mp3';
-import { Signer } from '@aws-amplify/core';
+// AWS Signature V4 signing utilities (replacement for deprecated Amplify Signer)
+import { signRequest, signUrl } from '@/store/sigv4-handlers';
 
 import LexClient from '@/lib/lex/client';
 
@@ -950,7 +951,7 @@ export default {
             service: 'execute-api' 
           };
           
-          Promise.resolve(awsCredentials).then((credentials) => {
+          Promise.resolve(awsCredentials).then(async (credentials) => {
             const accessInfo = {
               access_key: credentials.accessKeyId,
               secret_key: credentials.secretAccessKey,
@@ -964,7 +965,7 @@ export default {
               data: bodyText
             }
 
-            const signedRequest = Signer.sign(request, accessInfo, serviceInfo);
+            const signedRequest = await signRequest(request, accessInfo, serviceInfo);
 
             return fetch(signedRequest.url, signedRequest)
             .then(response => response.json())
@@ -1397,14 +1398,14 @@ export default {
         service: 'execute-api' 
       };
 
-      Promise.resolve(awsCredentials).then((credentials) => {
+      Promise.resolve(awsCredentials).then(async (credentials) => {
         const accessInfo = {
           access_key: credentials.accessKeyId,
           secret_key: credentials.secretAccessKey,
           session_token: credentials.sessionToken,
         }
 
-        const signedUrl = Signer.signUrl(context.state.config.lex.streamingWebSocketEndpoint+'?sessionId='+sessionId, accessInfo, serviceInfo);
+        const signedUrl = await signUrl(context.state.config.lex.streamingWebSocketEndpoint+'?sessionId='+sessionId, accessInfo, serviceInfo);
         wsClient = new WebSocket(signedUrl);
 
         // Add heartbeat logic
