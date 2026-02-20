@@ -7,10 +7,10 @@
  * This is called during the build process by
  * the Makefile in the root dir which is run by CodeBuild
  */
-const fs = require('fs');
-const config = require('../config');
-const {exec} = require("child_process");
-const path = require("path");
+import fs from 'fs';
+import config from '../config/index.js';
+import { exec } from 'child_process';
+import path from 'path';
 let revisedConfig;
 
 /**
@@ -244,8 +244,6 @@ Object.keys(config)
     console.info('[INFO] Config contents: ', JSON.stringify(item.conf));
     revisedConfig = item.conf;
     let enUSPollyVoiceConfig = lexV2BotLocaleVoices["en_US"];
-    const {exec} = require("child_process");
-    const path = require('path');
     const configDir = path.parse(item.file).dir;
     console.info('[INFO] Config dir is: ', configDir);
 

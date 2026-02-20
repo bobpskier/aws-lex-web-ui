@@ -1,5 +1,5 @@
-const jsdom = require("jsdom");
-const fs = require("fs");
+import jsdom from "jsdom";
+import fs from "fs";
 const { JSDOM } = jsdom;
 
 function modifyRule(styleSheet, selector, props) {
