@@ -12,4 +12,5 @@ if (!validBuildTypes.includes(buildType)) {
   throw new Error(`invalid build type: ${buildType}`);
 }
 
-module.exports = require(`./${buildType}.env`);
+const configModule = await import(`./${buildType}.env.js`);
+export default configModule.default;

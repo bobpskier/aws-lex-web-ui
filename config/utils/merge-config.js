@@ -3,7 +3,7 @@
  * the baseConfig. The srcConfig values override the baseConfig ones
  * unless the srcConfig value is empty
  */
-module.exports = function mergeConfig(baseConfig, srcConfig) {
+export default function mergeConfig(baseConfig, srcConfig) {
   function isEmpty(data) {
     if(typeof(data) === 'number' || typeof(data) === 'boolean') {
       return false;
@@ -53,4 +53,4 @@ module.exports = function mergeConfig(baseConfig, srcConfig) {
       },
       {}
     );
-};
+}

@@ -4,10 +4,14 @@
  * Each key contains the file name and the associated config object
  */
 
-const path = require('path');
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { readFileSync } from 'fs';
+import mergeConfig from './utils/merge-config.js';
+import baseConfig from './base.env.js';
 
-const mergeConfig = require('./utils/merge-config');
-const baseConfig = require('./base.env');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // config files to update
 const confFileNames = {
@@ -24,11 +28,11 @@ const confFileNames = {
     path.resolve(__dirname, '../src/config/lex-web-ui-loader-config.json'),
 };
 
-const appProdConfig = require(confFileNames.appProd);
-const appDevConfig = require(confFileNames.appDev);
-const loaderConfig = require(confFileNames.loader);
+const appProdConfig = JSON.parse(readFileSync(confFileNames.appProd, 'utf8'));
+const appDevConfig = JSON.parse(readFileSync(confFileNames.appDev, 'utf8'));
+const loaderConfig = JSON.parse(readFileSync(confFileNames.loader, 'utf8'));
 
-module.exports = {
+export default {
   loader: {
     file: confFileNames.loader,
     conf: mergeConfig(loaderConfig, baseConfig),

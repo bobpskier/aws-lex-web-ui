@@ -1,19 +1,23 @@
 /**
  * Config used when deploying the app using the pre-built dist library
  */
-const path = require('path');
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { readFileSync } from 'fs';
+import mergeConfig from './utils/merge-config.js';
+import baseConfig from './base.env.js';
 
-const mergeConfig = require('./utils/merge-config');
-const baseConfig = require('./base.env');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const loaderConfigFileName =
   process.env.LOADER_CONFIG ||
   path.resolve(__dirname, '../src/config/lex-web-ui-loader-config.json');
-const loaderConfig = require(loaderConfigFileName);
+const loaderConfig = JSON.parse(readFileSync(loaderConfigFileName, 'utf8'));
 
 
 const currentConfigFileName = path.resolve(__dirname, '../' + process.env.CURRENT_CONFIG_FILE);
-const currentConfig = require(currentConfigFileName);
+const currentConfig = JSON.parse(readFileSync(currentConfigFileName, 'utf8'));
 /* merge currentConfig with loader default config*/
 if (currentConfig['connect'] === undefined) {
   console.log(`adding connect to currentConfig`);
@@ -22,7 +26,7 @@ if (currentConfig['connect'] === undefined) {
 }
 const userConfig = mergeConfig(currentConfig, baseConfig);
 
-module.exports = {
+export default {
   appPreBuilt: {
     file: loaderConfigFileName,
     conf: mergeConfig(userConfig, baseConfig),
