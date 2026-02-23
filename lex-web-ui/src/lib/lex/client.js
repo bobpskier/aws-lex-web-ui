@@ -20,20 +20,20 @@ import {
   LexRuntimeV2Client
 } from "@aws-sdk/client-lex-runtime-v2";
 
-import {zlib} from 'zlib';
+import { gzipSync, unzipSync } from 'zlib';
 
 function b64CompressedToObject(src) {
-  return JSON.parse(zlib.unzipSync(Buffer.from(src, 'base64'))
+  return JSON.parse(unzipSync(Buffer.from(src, 'base64'))
     .toString('utf-8'));
 }
 
 function b64CompressedToString(src) {
-  return zlib.unzipSync(Buffer.from(src, 'base64'))
+  return unzipSync(Buffer.from(src, 'base64'))
     .toString('utf-8').replaceAll('"', '');
 }
 
 function compressAndB64Encode(src) {
-  return zlib.gzipSync(Buffer.from(JSON.stringify(src)))
+  return gzipSync(Buffer.from(JSON.stringify(src)))
     .toString('base64');
 }
 

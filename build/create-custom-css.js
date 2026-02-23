@@ -1,12 +1,12 @@
-const jsdom = require("jsdom");
-const fs = require("fs");
+import jsdom from "jsdom";
+import fs from "fs";
 const { JSDOM } = jsdom;
 
 function modifyRule(styleSheet, selector, props) {
 
     let rule = null;
     if(styleSheet.cssRules) {
-        for(var cssrule of styleSheet.cssRules){
+        for(const cssrule of styleSheet.cssRules){
             console.log(cssrule.cssText);
             if (cssrule.selectorText == selector) {
                 rule = cssrule;
@@ -18,16 +18,19 @@ function modifyRule(styleSheet, selector, props) {
         ? props.split(/\s*;\s*/).map(i => i.split(/\s*:\s*/)) // from string
         : Object.entries(props);                              // from Object
 
-    if (rule) for (let [prop, val] of propsArr){        
-        // rule.style[prop] = val; is against the spec, and does not support !important.
-        rule.style.setProperty(prop, ...val.split(/ *!(?=important)/));
+    if (rule) {
+        for (let [prop, val] of propsArr){        
+            // rule.style[prop] = val; is against the spec, and does not support !important.
+            rule.style.setProperty(prop, ...val.split(/ *!(?=important)/));
+        }
     }
     else {
+        let propsString = props;
         if (!props.sup) {
-            props = propsArr.reduce((str, [k, v]) => `${k}: ${v}`, '');
+            propsString = propsArr.reduce((str, [k, v]) => `${str}${k}: ${v}; `, '');
         }
         console.log("Adding rule");
-        styleSheet.insertRule(`${selector} { ${props} }`, styleSheet.cssRules.length);
+        styleSheet.insertRule(`${selector} { ${propsString} }`, styleSheet.cssRules.length);
         const css = Array.from(document.styleSheets[document.styleSheets.length - 1].cssRules).map(rule => rule.cssText).join(' ');
         console.log(css);
     }
@@ -35,12 +38,12 @@ function modifyRule(styleSheet, selector, props) {
 }
 
 // Reading the current CSS and adding it into an in-memory DOM object for easier manipulation
-var css_location = process.argv[2]
-var current_css = fs.readFileSync(css_location,{ encoding: 'utf8' });
+const css_location = process.argv[2];
+const current_css = fs.readFileSync(css_location,{ encoding: 'utf8' });
 const dom = new JSDOM('<body><style>' + current_css + '</style></body>');
 
-document = dom.window.document;
-styleSheet = document.styleSheets[document.styleSheets.length - 1];
+const document = dom.window.document;
+const styleSheet = document.styleSheets[document.styleSheets.length - 1];
 
 if (process.env['MESSAGE_TEXT_COLOR'] && process.env['MESSAGE_TEXT_COLOR'].length > 0) { 
     modifyRule(styleSheet, '.message-text', { color: process.env['MESSAGE_TEXT_COLOR'] + ' !important'});
@@ -67,4 +70,4 @@ if (process.env['MINIMIZED_BUTTON_COLOR'] && process.env['MINIMIZED_BUTTON_COLOR
 //Write the CSS back to the file (formatting will be changed if it had manual inputs but rules/properties should remain)
 const css = Array.from(styleSheet.cssRules).map(rule => rule.cssText).join('\r\n\r\n');
 console.log(css);
-fs.writeFileSync(css_location, css)
+fs.writeFileSync(css_location, css);

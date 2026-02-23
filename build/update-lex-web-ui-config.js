@@ -7,10 +7,10 @@
  * This is called during the build process by
  * the Makefile in the root dir which is run by CodeBuild
  */
-const fs = require('fs');
-const config = require('../config');
-const {exec} = require("child_process");
-const path = require("path");
+import fs from 'fs';
+import config from '../config/index.js';
+import { exec } from 'child_process';
+import path from 'path';
 let revisedConfig;
 
 /**
@@ -174,7 +174,7 @@ const lexV2BotLocaleVoices = {
  */
 function createMp3(text, languageCode, voiceId, output) {
   let lcDefinition = (languageCode.length > 0) ? `--language-code ${languageCode}` : '';
-  const cmd = `aws polly synthesize-speech --text "${text}" ${lcDefinition} --voice-id "${voiceId}"  --output-format mp3 --text-type text "${output}"`
+  const cmd = `aws polly synthesize-speech --text "${text}" ${lcDefinition} --voice-id "${voiceId}"  --output-format mp3 --text-type text "${output}"`;
   console.info(`createMp3 cmd is \n${cmd}`);
   exec(cmd, (error, stdout, stderr) => {
     if (error) {
@@ -196,7 +196,7 @@ function createMp3(text, languageCode, voiceId, output) {
  */
 function translateAndCreateMp3(localeId, text, output) {
   console.info(`translate '${text}' to ${localeId.trim()} with output of ${output}`);
-  lid = localeId.trim()
+  const lid = localeId.trim();
   if (lid === 'en_US') {
     return;
   }
@@ -206,7 +206,7 @@ function translateAndCreateMp3(localeId, text, output) {
   if (targetPollyVoiceConfig) {
     // translate the english text defined in CF template to the target language.
     const targetTranslateLang = lid.split("_")[0];
-    const translateCmd = `aws translate translate-text --text "${text}" --source-language-code auto --target-language-code ${targetTranslateLang} --output json --query 'TranslatedText'`
+    const translateCmd = `aws translate translate-text --text "${text}" --source-language-code auto --target-language-code ${targetTranslateLang} --output json --query 'TranslatedText'`;
     console.info(`translate cmd is \n${translateCmd}`);
     exec(translateCmd, (error, stdout, stderr) => {
       if (error) {
@@ -217,11 +217,11 @@ function translateAndCreateMp3(localeId, text, output) {
       }
       console.info(`translate stdout: ${stdout.trim()}`);
       // if a language code for the target locale exists, specify this for the polly command
-      createMp3(stdout.trim().replace(/['"]+/g, ''), targetPollyVoiceConfig.languageCode, targetPollyVoiceConfig.voiceId, output)
+      createMp3(stdout.trim().replace(/['"]+/g, ''), targetPollyVoiceConfig.languageCode, targetPollyVoiceConfig.voiceId, output);
     });
   } else { // the specified locale can't be translated as it is not in the map. Generate an english version for this locale.
-    console.info(`Could not find specified locale "${lid}"`)
-    createMp3(text.trim().replace(/['"]+/g, ''), enUSPollyVoiceConfig.languageCode, enUSPollyVoiceConfig.voiceId, output)
+    console.info(`Could not find specified locale "${lid}"`);
+    createMp3(text.trim().replace(/['"]+/g, ''), enUSPollyVoiceConfig.languageCode, enUSPollyVoiceConfig.voiceId, output);
   }
 }
 
@@ -244,8 +244,6 @@ Object.keys(config)
     console.info('[INFO] Config contents: ', JSON.stringify(item.conf));
     revisedConfig = item.conf;
     let enUSPollyVoiceConfig = lexV2BotLocaleVoices["en_US"];
-    const {exec} = require("child_process");
-    const path = require('path');
     const configDir = path.parse(item.file).dir;
     console.info('[INFO] Config dir is: ', configDir);
 
@@ -257,7 +255,7 @@ Object.keys(config)
       // Iterate through the map of the configured v2BotLocaleIds and generate mp3 files with initial speech.
       // This is only supported for LexV2 bots.
       revisedConfig.lex.v2BotLocaleId.split(",").map((localeId) => {
-        lid = localeId.trim();
+        const lid = localeId.trim();
         if (lid != "en_US") {
           translateAndCreateMp3(lid, revisedConfig.lex.initialSpeechInstruction.replace(/['"]+/g, ''), `${configDir}/initial_speech_${lid}.mp3`)
         }
@@ -270,9 +268,9 @@ Object.keys(config)
       createMp3('All done', "en-US", enUSPollyVoiceConfig.voiceId, `${configDir}/all_done_en_US.mp3`);
       createMp3('There was an error', "en-US", enUSPollyVoiceConfig.voiceId, `${configDir}/there_was_an_error_en_US.mp3`);
       revisedConfig.lex.v2BotLocaleId.split(",").map((localeId) => {
-        let lid = localeId.trim();
-        translateAndCreateMp3(localeId, 'All done', `${configDir}/all_done_${lid}.mp3`)
-        translateAndCreateMp3(localeId, 'There was an error', `${configDir}/there_was_an_error_${lid}.mp3`)
+        const lid = localeId.trim();
+        translateAndCreateMp3(localeId, 'All done', `${configDir}/all_done_${lid}.mp3`);
+        translateAndCreateMp3(localeId, 'There was an error', `${configDir}/there_was_an_error_${lid}.mp3`);
       });
     }
   });

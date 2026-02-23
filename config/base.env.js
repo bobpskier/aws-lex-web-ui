@@ -1,7 +1,7 @@
 /**
  * Base config common to builds
  */
-module.exports = {
+export default {
   region: process.env.AWS_DEFAULT_REGION,
   cognito: {
     poolId: process.env.POOL_ID,

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   silenceDeprecations: ['legacy-js-api'],
   quietDeps: true,
   logger: {
