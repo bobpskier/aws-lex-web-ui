@@ -105,7 +105,7 @@ License for the specific language governing permissions and limitations under th
 */
 /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 
-import RecorderStatus from '@/components/RecorderStatus';
+import RecorderStatus from '@/components/RecorderStatus.vue';
 
 export default {
   name: 'input-container',

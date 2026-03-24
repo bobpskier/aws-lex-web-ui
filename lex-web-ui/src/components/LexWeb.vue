@@ -69,10 +69,10 @@ License for the specific language governing permissions and limitations under th
 
 /* eslint no-console: ["error", { allow: ["warn", "error", "info"] }] */
 
-import MinButton from '@/components/MinButton';
-import ToolbarContainer from '@/components/ToolbarContainer';
-import MessageList from '@/components/MessageList';
-import InputContainer from '@/components/InputContainer';
+import MinButton from '@/components/MinButton.vue';
+import ToolbarContainer from '@/components/ToolbarContainer.vue';
+import MessageList from '@/components/MessageList.vue';
+import InputContainer from '@/components/InputContainer.vue';
 // import { fromCognitoIdentityPool } from '@aws-sdk/credential-providers';
 import { LexRuntimeV2Client } from '@aws-sdk/client-lex-runtime-v2';
 import { PollyClient } from '@aws-sdk/client-polly';

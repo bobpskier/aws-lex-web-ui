@@ -256,8 +256,8 @@ or in the "license" file accompanying this file. This file is distributed on an 
 BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, express or implied. See the
 License for the specific language governing permissions and limitations under the License.
 */
-import MessageText from './MessageText';
-import ResponseCard from './ResponseCard';
+import MessageText from './MessageText.vue';
+import ResponseCard from './ResponseCard.vue';
 
 export default {
   name: 'message',

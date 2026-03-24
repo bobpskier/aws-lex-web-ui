@@ -20,12 +20,11 @@ License for the specific language governing permissions and limitations under th
  */
 import { LexRuntimeV2Client } from '@aws-sdk/client-lex-runtime-v2';
 import { PollyClient } from '@aws-sdk/client-polly';
-import LexWeb from '@/components/LexWeb';
+import LexWeb from '@/components/LexWeb.vue';
 import VuexStore from '@/store';
 
 import { config as defaultConfig, mergeConfig } from '@/config';
 import { createApp, defineAsyncComponent } from 'vue';
-import { createAppDev } from 'vue/dist/vue.esm-bundler.js';
 import { aliases, md } from 'vuetify/iconsets/md';
 import { createStore } from 'vuex';
 

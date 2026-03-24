@@ -14,8 +14,8 @@
 /* eslint no-console: ["error", { allow: ["info", "warn", "error"] }] */
 /* global AudioContext CustomEvent document Event navigator window */
 
-// wav encoder worker - uses webpack worker loader
-import WavWorker from './wav-worker';
+// wav encoder worker - uses Vite's native worker support
+import WavWorker from './wav-worker.js?worker';
 
 /**
  * Lex Recorder Module
@@ -290,6 +290,7 @@ export default class {
     this._recordingStartTime = this._audioContext.currentTime;
     this._eventTarget.dispatchEvent(new Event('start'));
 
+    // Initialize encoder worker with configuration
     this._encoderWorker.postMessage({
       command: 'init',
       config: {
@@ -324,6 +325,7 @@ export default class {
     this._state = 'inactive';
     this._recordingStartTime = 0;
 
+    // Export WAV data from worker
     this._encoderWorker.postMessage({
       command: 'exportWav',
       type: 'audio/wav',
@@ -335,6 +337,7 @@ export default class {
   _exportWav(evt) {
     const event = new CustomEvent('dataavailable', { detail: evt.data });
     this._eventTarget.dispatchEvent(event);
+    // Clear worker buffer after export
     this._encoderWorker.postMessage({ command: 'clear' });
   }
 
@@ -348,6 +351,7 @@ export default class {
       buffer[i] = inputBuffer.getChannelData(i);
     }
 
+    // Send audio buffer to worker for processing
     this._encoderWorker.postMessage({
       command: 'record',
       buffer,

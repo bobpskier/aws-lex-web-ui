@@ -501,7 +501,7 @@ in the following sections.
 
 ### Build Time Configuration
 The chatbot UI build process can import configuration from a JSON
-file. This is done when [webpack](https://webpack.github.io/) bundles
+file. This is done when [Vite](https://vitejs.dev/) bundles
 the chatbot UI files (normally done using `npm run build`).
 
 This JSON config file should contain the the same key/value structure
@@ -666,12 +666,13 @@ see the
 ## Dependencies and Build Setup
 The application dependencies are managed using
 [npm](https://www.npmjs.com/). The build artifacts are bundled using
-[webpack](https://webpack.js.org/). Initial scaffolding of this project
-was done with [vue-cli](https://github.com/vuejs/vue-cli).
+[Vite](https://vitejs.dev/). Initial scaffolding of this project
+was done with [vue-cli](https://github.com/vuejs/vue-cli) but has been
+migrated to Vite for improved performance and modern tooling.
 
-For detailed explanation on how things work, checkout the
-[guide](http://vuejs-templates.github.io/webpack/) and
-[docs for vue-loader](http://vuejs.github.io/vue-loader).
+For detailed explanation on how Vite works, checkout the
+[Vite guide](https://vitejs.dev/guide/) and
+[docs for @vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue).
 
 ``` bash
 # these commands should be executed under the lex-web-ui directory

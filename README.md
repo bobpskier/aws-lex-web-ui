@@ -100,8 +100,8 @@ directory of this repository.
 component that can be plugged in a web application. The library is
 provided by the `lex-web-ui.js` file under the [dist](dist) directory. It
 is bundled from the source under the [lex-web-ui](lex-web-ui)
-directory. This library is geared to be used as an import in a webpack
-based web application but can also be instantiated directly in a web page
+directory. This library is geared to be used as an import in a modern
+web application but can also be instantiated directly in a web page
 provided that you manually load the dependencies and explicitly pass
 the configuration. See the component's [README](lex-web-ui/README.md)
 for details

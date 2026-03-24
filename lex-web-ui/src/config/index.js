@@ -32,6 +32,11 @@
 
 // TODO turn this into a class
 
+// Import environment-specific configs
+import configDev from './config.dev.json';
+import configProd from './config.prod.json';
+import configTest from './config.test.json';
+
 // get env shortname to require file
 const envShortName = [
   'dev',
@@ -43,9 +48,31 @@ if (!envShortName) {
   console.error('unknown environment in config: ', process.env.NODE_ENV);
 }
 
-// eslint-disable-next-line import/no-dynamic-require
-const configEnvFile = (process.env.BUILD_TARGET === 'lib') ?
-  {} : await import(`./config.${envShortName}.json`);
+// Select the appropriate config based on environment
+let configEnvFile = {};
+try {
+  if (process.env.BUILD_TARGET !== 'lib') {
+    // For app builds, use the appropriate environment config
+    switch (envShortName) {
+      case 'dev':
+        configEnvFile = configDev;
+        break;
+      case 'prod':
+        configEnvFile = configProd;
+        break;
+      case 'test':
+        configEnvFile = configTest;
+        break;
+      default:
+        configEnvFile = {};
+    }
+    console.log(`🔧 Loading config for environment: ${envShortName}`);
+    console.log('📋 Environment config loaded:', Object.keys(configEnvFile).length > 0 ? 'SUCCESS' : 'EMPTY');
+  }
+} catch (e) {
+  console.warn('Could not load environment config file', e);
+  configEnvFile = {};
+}
 
 // default config used to provide a base structure for
 // environment and dynamic configs
@@ -468,6 +495,14 @@ if (configFromQuery.ui && configFromQuery.ui.parentOrigin) {
 }
 
 const configFromMerge = mergeConfig(configFromFiles, configFromQuery);
+
+// Debug logging for config
+console.log('🔧 Final config merge:', {
+  hasLexConfig: !!configFromMerge.lex,
+  lexBotId: configFromMerge.lex?.v2BotId || 'NOT SET',
+  region: configFromMerge.region || 'NOT SET',
+  environment: envShortName
+});
 
 export const config = {
   ...configFromMerge,

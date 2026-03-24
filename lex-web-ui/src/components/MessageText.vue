@@ -37,8 +37,7 @@ BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, express or implied. See the
 License for the specific language governing permissions and limitations under the License.
 */
 import {chatMode} from '@/store/state';
-
-const marked = require('marked');
+import { marked } from 'marked';
 
 // Custom tokenizer for HTTPS and tel links
 const linkTokenizer = {

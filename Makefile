@@ -74,8 +74,8 @@ build: config
 	@echo "[INFO] Building loader"
 	npm run build-dev
 	npm run build-prod
-	@echo "[INFO Building Dist"
-	cd $(DIST_DIR) && make
+	@echo "[INFO] Copying dependencies and bundle files"
+	node build/copy-assets.js
 .PHONY: build
 
 # creates an HTML file with a JavaScript snippet showing how to load the iframe

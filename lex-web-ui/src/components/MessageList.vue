@@ -30,8 +30,8 @@ or in the "license" file accompanying this file. This file is distributed on an 
 BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, express or implied. See the
 License for the specific language governing permissions and limitations under the License.
 */
-import Message from './Message';
-import MessageLoading from './MessageLoading';
+import Message from './Message.vue';
+import MessageLoading from './MessageLoading.vue';
 
 export default {
   name: 'message-list',
