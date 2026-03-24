@@ -178,7 +178,9 @@ const baseConfig = {
     alias: {
       '@': path.resolve(__dirname, 'src'),
       // Use the full build of Vue that includes the template compiler
-      'vue': 'vue/dist/vue.esm-bundler.js'
+      'vue': 'vue/dist/vue.esm-bundler.js',
+      // Explicitly alias zlib to browserify-zlib for browser compatibility
+      'zlib': 'browserify-zlib'
     },
     // Ensure proper module resolution
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
@@ -275,31 +277,14 @@ const libraryConfig = {
         'vue', 
         'vuex', 
         'vue-router', 
-        'vuetify',
-        // AWS SDK v3 clients - externalize all AWS SDK modules
-        /^@aws-sdk\/.+$/,
-        // AWS Amplify
-        'aws-amplify',
-        // Other external dependencies that consumers should provide
-        'amazon-connect-chatjs'
+        'vuetify'
       ],
       output: {
         globals: {
           vue: 'Vue',
           vuex: 'Vuex',
           'vue-router': 'VueRouter',
-          vuetify: 'Vuetify',
-          'aws-amplify': 'aws_amplify',
-          'amazon-connect-chatjs': 'connect',
-          // AWS SDK v3 client globals
-          '@aws-sdk/client-lex-runtime-v2': 'AWS_LexRuntimeV2',
-          '@aws-sdk/client-polly': 'AWS_Polly',
-          '@aws-sdk/client-cognito-identity': 'AWS_CognitoIdentity',
-          '@aws-sdk/client-s3': 'AWS_S3',
-          '@aws-sdk/client-connect': 'AWS_Connect',
-          '@aws-sdk/credential-providers': 'AWS_CredentialProviders',
-          '@aws-sdk/util-utf8-browser': 'AWS_UtilUtf8Browser',
-          '@aws-sdk/util-hex-encoding': 'AWS_UtilHexEncoding'
+          vuetify: 'Vuetify'
         },
         // Ensure CSS files are named consistently
         assetFileNames: (assetInfo) => {
@@ -438,6 +423,8 @@ const appConfig = {
       'vue-router',
       'vuetify',
       'material-design-icons',
+      // Include browserify-zlib for proper zlib polyfill
+      'browserify-zlib',
       // Include AWS crypto modules to fix export issues
       '@aws-crypto/crc32',
       '@aws-crypto/crc32c-node',

@@ -38,8 +38,8 @@
   },
   "dependencies": {
     "amazon-cognito-auth-js": "^1.2.4",
-    "@aws-sdk/client-cognito-identity": "^3.965.0",
-    "@aws-sdk/credential-providers": "^3.965.0",
+    "@aws-sdk/client-cognito-identity": "^3.1015.0",
+    "@aws-sdk/credential-providers": "^3.1015.0",
     "core-js": "^3.6.5",
     "jsdom": "^22.0.0",
     "jwt-decode": "^4.0.0",
@@ -60,7 +60,7 @@
     "eslint-plugin-import": "^2.20.2",
     "express": "^4.17.1",
     "postcss": "^8.4.32",
-    "vite": "^5.4.21",
+    "vite": "^7.3.1",
     "vite-plugin-node-polyfills": "^0.24.0"
   },
   "engines": {

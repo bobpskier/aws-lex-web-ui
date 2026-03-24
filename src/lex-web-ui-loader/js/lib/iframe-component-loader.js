@@ -17,7 +17,7 @@
 import { ConfigLoader } from './config-loader';
 import { logout, login, completeLogin, completeLogout, getAuth, refreshLogin, isTokenExpired, forceLogin } from './loginutil';
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-providers';
-const { CognitoIdentityClient, GetIdCommand, GetCredentialsForIdentityCommand } = require("@aws-sdk/client-cognito-identity");
+import { CognitoIdentityClient, GetIdCommand, GetCredentialsForIdentityCommand } from '@aws-sdk/client-cognito-identity';
 
 
 /**

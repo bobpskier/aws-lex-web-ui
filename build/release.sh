@@ -33,6 +33,12 @@ sed -i -e "s/(v.*)/($VERSION)/g" \
 ../templates/master.yaml;;
 
 esac
+cd ../lex-web-ui
+npm run build
+npm run build-dist
+cd .. 
+make
+cd build
 make "custom-resources-$VERSION.zip"
 make "initiate-chat-lambda-$VERSION.zip"
 make "streaming-lambda-$VERSION.zip"
