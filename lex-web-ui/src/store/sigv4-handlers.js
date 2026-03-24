@@ -17,7 +17,7 @@
  * This module provides request signing functionality using AWS SDK v3's SignatureV4.
  */
 
-import { SignatureV4 } from '@aws-sdk/signature-v4';
+import { SignatureV4 } from '@smithy/signature-v4';
 import { Sha256 } from '@aws-crypto/sha256-js';
 import { HttpRequest } from '@smithy/protocol-http';
 
