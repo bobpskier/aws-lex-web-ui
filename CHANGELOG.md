@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - POTENTIAL BREAKING CHANGE: Solutions has been migrated to Vite and will no longer use Webpack. If your solution uses custom Webpack builds it, use caution before pulling in this change.
 - Modified postTextMessage action to set previous question and answer as Lex session attributes
 - Fixed invalid border-radius value for lex-web-ui-iframe.css which resulted in a visible border when the iFrame was minimized
+- Create own implementation of sigv4 signing so that Amplify is not a required dependency
 
 ## [0.23.1] - 2025-12-17
 - Allow users to specify tel:+x.xxx.xxx.xxxx format phone numbers in message responses and in connect wait for agent messages. This allows users to touch on the phone number on mobile devices to initiate a call.
